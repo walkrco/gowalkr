@@ -1,0 +1,19 @@
+{
+  "name": "walkr-lambda",
+  "version": "1.0.0",
+  "description": "Walkr workout generator Lambda function",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "package": "npm run build && zip -r lambda-deployment.zip dist/ node_modules/"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.450.0",
+    "@aws-sdk/lib-dynamodb": "^3.450.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
