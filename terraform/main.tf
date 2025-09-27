@@ -22,7 +22,7 @@ provider "aws" {
 provider "aws" {
   alias  = "management"
   region = var.aws_region
-  
+
   assume_role {
     role_arn = var.route53_role_arn
   }
@@ -76,8 +76,8 @@ resource "aws_s3_bucket_policy" "frontend" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowCloudFrontServicePrincipal"
-        Effect    = "Allow"
+        Sid    = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
         Principal = {
           Service = "cloudfront.amazonaws.com"
         }
@@ -117,7 +117,7 @@ resource "aws_acm_certificate" "frontend" {
 # Create validation records in management account
 resource "aws_route53_record" "cert_validation" {
   provider = aws.management
-  
+
   for_each = {
     for dvo in aws_acm_certificate.frontend.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -233,10 +233,10 @@ resource "aws_cloudfront_distribution" "frontend" {
 
 # DynamoDB table for workouts
 resource "aws_dynamodb_table" "workouts" {
-  name           = "${var.app_name}-workouts"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "pk"
-  range_key      = "sk"
+  name         = "${var.app_name}-workouts"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "pk"
+  range_key    = "sk"
 
   attribute {
     name = "pk"
@@ -266,7 +266,7 @@ resource "aws_dynamodb_table" "workouts" {
   }
 
   tags = {
-    Name = "${var.app_name}-workouts"
+    Name        = "${var.app_name}-workouts"
     Environment = var.environment
   }
 }
@@ -329,12 +329,12 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
 
 # Lambda function
 resource "aws_lambda_function" "workout_generator" {
-  filename         = "lambda-deployment.zip"
-  function_name    = "workout-generator"
-  role            = aws_iam_role.lambda_role.arn
-  handler         = "dist/index.handler"
-  runtime         = "nodejs18.x"
-  timeout         = 30
+  filename      = "lambda-deployment.zip"
+  function_name = "workout-generator"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "dist/index.handler"
+  runtime       = "nodejs18.x"
+  timeout       = 30
 
   environment {
     variables = {
@@ -367,7 +367,7 @@ resource "aws_apigatewayv2_api" "workout_api" {
     allow_methods     = ["*"]
     allow_origins     = ["https://${var.domain_name}", "https://www.${var.domain_name}"]
     expose_headers    = ["date", "keep-alive"]
-    max_age          = 86400
+    max_age           = 86400
   }
 }
 
@@ -381,12 +381,12 @@ resource "aws_apigatewayv2_stage" "workout_api" {
     destination_arn = aws_cloudwatch_log_group.api_log_group.arn
 
     format = jsonencode({
-      requestId      = "$context.requestId"
-      sourceIp       = "$context.identity.sourceIp"
-      requestTime    = "$context.requestTime"
-      protocol       = "$context.protocol"
-      httpMethod     = "$context.httpMethod"
-      resourcePath   = "$context.resourcePath"
+      requestId    = "$context.requestId"
+      sourceIp     = "$context.identity.sourceIp"
+      requestTime  = "$context.requestTime"
+      protocol     = "$context.protocol"
+      httpMethod   = "$context.httpMethod"
+      resourcePath = "$context.resourcePath"
     })
   }
 }
