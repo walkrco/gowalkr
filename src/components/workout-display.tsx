@@ -159,10 +159,6 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
             Generate Another Workout
           </Button>
         </div>
-
-        <div className="text-center text-xs text-muted-foreground">
-          For fun & inspiration only. Consult a professional for personalized advice.
-        </div>
       </div>
     </div>
   );

@@ -47,19 +47,16 @@ export function WorkoutGenerator() {
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
-      <Card className="bg-card shadow-card border-2 border-primary/20">
+      <Card className="bg-gray-800 shadow-card border-2 border-orange-500/20">
         <CardHeader>
-          <CardTitle className="text-2xl text-center bg-gradient-hero bg-clip-text text-transparent font-tungsten">
-            LET'S GO
-          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-3 gap-6">
             {/* Goal Selection */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
-                <label className="font-medium text-foreground" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Fitness Goal</label>
+                <Target className="w-5 h-5 text-orange-500" />
+                <label className="font-medium text-white tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Fitness Goal</label>
               </div>
               <Select value={goal} onValueChange={setGoal}>
                 <SelectTrigger className="h-12 border-2 border-border">
@@ -78,8 +75,8 @@ export function WorkoutGenerator() {
             {/* Duration Slider */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-primary" />
-                <label className="font-medium text-foreground" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Time Available</label>
+                <Clock className="w-5 h-5 text-orange-500" />
+                <label className="font-medium text-white tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Time Available</label>
               </div>
               <div className="px-3">
                 <Slider
@@ -90,9 +87,9 @@ export function WorkoutGenerator() {
                   step={5}
                   className="w-full"
                 />
-                <div className="flex justify-between text-sm text-muted-foreground mt-2">
+                <div className="flex justify-between text-sm text-gray-400 mt-2">
                   <span>5 min</span>
-                  <span className="font-bold text-primary">{duration[0]} min</span>
+                  <span className="font-bold text-orange-500">{duration[0]} min</span>
                   <span>30 min</span>
                 </div>
               </div>
@@ -101,8 +98,8 @@ export function WorkoutGenerator() {
             {/* Equipment Selection */}
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <Dumbbell className="w-5 h-5 text-primary" />
-                <label className="font-medium text-foreground" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Equipment</label>
+                <Dumbbell className="w-5 h-5 text-orange-500" />
+                <label className="font-medium text-white tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Equipment</label>
               </div>
               <Select value={equipment} onValueChange={setEquipment}>
                 <SelectTrigger className="h-12 border-2 border-border">
@@ -123,7 +120,7 @@ export function WorkoutGenerator() {
             onClick={handleGenerate}
             disabled={!goal || !equipment || isGenerating}
             size="lg"
-            className="w-full bg-black text-white hover:bg-gray-900 font-bold text-lg py-6"
+            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 font-bold text-lg py-6"
           >
             {isGenerating ? (
               <>Creating your workout...</>
@@ -140,10 +137,6 @@ export function WorkoutGenerator() {
           <WorkoutCard workout={generatedWorkout} />
         </div>
       )}
-
-      <div className="text-center text-xs text-muted-foreground">
-        For fun & inspiration only. Consult a professional for personalized advice.
-      </div>
     </div>
   );
 }
