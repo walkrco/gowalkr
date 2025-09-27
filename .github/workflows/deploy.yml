@@ -79,7 +79,7 @@ jobs:
         role-duration-seconds: 1200
 
     - name: Deploy Lambda
-      uses: aws-actions/aws-lambda-deploy@v2
+      uses: aws-actions/aws-lambda-deploy@v1.1.0
       with:
         function-name: ${{ env.LAMBDA_FUNCTION_NAME }}
         code-artifacts-dir: lambda/
