@@ -1,0 +1,13 @@
+# TypeScript validation
+echo "🔍 Checking TypeScript..."
+npm run type-check
+
+# Lint TypeScript/React
+echo "🧹 Linting code..."
+npm run lint
+
+# Lambda TypeScript validation
+echo "🔍 Checking Lambda TypeScript..."
+cd lambda && npm run build && cd ..
+
+echo "✅ All checks passed!"

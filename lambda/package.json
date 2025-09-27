@@ -1,5 +1,5 @@
 {
-  "name": "walkr-lambda",
+  "name": "gowalkr-lambda",
   "version": "1.0.0",
   "description": "Walkr workout generator Lambda function",
   "main": "index.js",

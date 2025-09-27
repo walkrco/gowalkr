@@ -1,0 +1,122 @@
+name: Deploy GOWALKR
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: eu-west-2
+  LAMBDA_FUNCTION_NAME: workout-generator
+  S3_BUCKET: gowalkr.com
+  CLOUDFRONT_DISTRIBUTION_ID: E3EZZLFM2SX2SM
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.5.0"
+
+    - name: Terraform Format Check
+      run: |
+        cd terraform
+        terraform fmt -check
+
+    - name: Terraform Init
+      run: |
+        cd terraform
+        terraform init
+
+    - name: Terraform Validate
+      run: |
+        cd terraform
+        terraform validate
+
+    - name: Terraform Plan
+      run: |
+        cd terraform
+        terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main'
+      run: |
+        cd terraform
+        terraform apply -auto-approve tfplan
+
+    - name: Build React app
+      run: npm run build
+      env:
+        CI: false
+
+    - name: Build Lambda
+      run: |
+        cd lambda
+        npm ci --production
+        npm run build
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        role-duration-seconds: 1200
+
+    - name: Deploy Lambda
+      uses: aws-actions/aws-lambda-deploy@v2
+      with:
+        function-name: ${{ env.LAMBDA_FUNCTION_NAME }}
+        code-artifacts-dir: lambda/
+        handler: dist/index.handler
+        runtime: nodejs22.x
+        exclude: |
+          *.ts
+          tsconfig.json
+          package-lock.json
+
+    - name: Deploy to S3
+      run: |
+        # Upload static assets with long cache (1 year)
+        aws s3 sync dist/ s3://${{ env.S3_BUCKET }} \
+          --delete \
+          --cache-control "public, max-age=31536000" \
+          --exclude "index.html" \
+          --no-cli-pager
+
+        # Upload index.html with no cache (always fresh)
+        aws s3 cp dist/index.html s3://${{ env.S3_BUCKET }}/index.html \
+          --cache-control "public, max-age=0, must-revalidate" \
+          --no-cli-pager
+
+    - name: Invalidate CloudFront
+      run: |
+        # Clear CDN cache so users see new version immediately
+        INVALIDATION_ID=$(aws cloudfront create-invalidation \
+          --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*" \
+          --query 'Invalidation.Id' \
+          --output text \
+          --no-cli-pager)
+
+        echo "Invalidation ID: $INVALIDATION_ID"
+
+        # Wait for cache clearing to complete
+        aws cloudfront wait invalidation-completed \
+          --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+          --id $INVALIDATION_ID
