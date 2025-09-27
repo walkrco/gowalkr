@@ -144,7 +144,7 @@ const WorkoutTimer = () => {
   };
 
   if (!workout) {
-    return <div className="min-h-screen bg-black flex items-center justify-center text-white">Loading workout...</div>;
+    return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading workout...</div>;
   }
 
   const currentExercise = workout.exercises[workoutState.currentExerciseIndex];
@@ -152,13 +152,13 @@ const WorkoutTimer = () => {
   const isWorkoutComplete = workoutState.currentExerciseIndex >= workout.exercises.length && !workoutState.isActive;
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       {/* Header */}
       <div className="flex items-center p-6">
         <div className="flex-1"></div>
         <div className="flex items-end">
           <span className="text-xl font-tungsten text-white">WALKR</span>
-          <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-1 ml-1"></div>
+          <div className="w-3 h-3 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
         </div>
         <div className="flex-1 flex justify-end">
           <Button
@@ -176,7 +176,8 @@ const WorkoutTimer = () => {
       <div className="px-6 mb-4">
         <div className="w-full bg-gray-800 rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+            className="h-2 rounded-full transition-all duration-300"
+            style={{backgroundColor: '#ccff00'}}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -189,13 +190,13 @@ const WorkoutTimer = () => {
       {/* Main Timer Area */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-6">
         {isWorkoutComplete ? (
-          <Card className="bg-gray-900 border-gray-700 text-center p-8">
+          <Card className="bg-gray-800 border-gray-600 text-center p-8">
             <CardContent className="space-y-6">
               <div className="text-6xl">🎉</div>
               <h2 className="text-3xl font-tungsten text-white">WORKOUT COMPLETE!</h2>
               <p className="text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Total time: {formatTotalTime(workoutState.totalElapsed)}</p>
               <div className="space-y-3">
-                <Button onClick={resetWorkout} className="w-full bg-gradient-to-r from-blue-600 to-purple-600">
+                <Button onClick={resetWorkout} className="w-full text-black hover:opacity-90" style={{backgroundColor: '#ccff00'}}>
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Do It Again
                 </Button>
@@ -218,7 +219,7 @@ const WorkoutTimer = () => {
             </div>
 
             {/* Current Exercise */}
-            <Card className="bg-gray-900 border-gray-700 w-full max-w-md mb-8">
+            <Card className="bg-gray-800 border-gray-600 w-full max-w-md mb-8">
               <CardContent className="text-center p-6">
                 <div className="text-xl mb-2 text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   {workoutState.isResting ? "🛌 Get Ready!" : currentExercise}
@@ -240,7 +241,8 @@ const WorkoutTimer = () => {
                   <Button
                     onClick={startWorkout}
                     size="lg"
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 px-8"
+                    className="text-black hover:opacity-90 px-8"
+                    style={{backgroundColor: '#ccff00'}}
                   >
                     <Play className="w-6 h-6 mr-2" />
                     Start Workout
@@ -281,7 +283,7 @@ const WorkoutTimer = () => {
       </div>
       
       {/* Footer - Minimal */}
-      <footer className="py-3 bg-black">
+      <footer className="py-3 bg-gray-900">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex-1"></div>

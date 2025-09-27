@@ -3,13 +3,38 @@ import { Twitter, Instagram, Youtube } from "lucide-react";
 
 const Workouts = () => {
   return (
-    <div className="min-h-screen bg-black flex flex-col">
-      {/* Header */}
-      <header className="backdrop-blur-sm bg-black sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 text-center">
-          <div className="flex items-end justify-center">
-            <span className="text-xl font-tungsten text-white">WALKR</span>
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-1 ml-1"></div>
+    <div className="min-h-screen bg-gray-900 flex flex-col">
+      {/* Top Bar */}
+      <div className="py-2 text-center transition-all duration-300" id="top-bar" style={{backgroundColor: '#ccff00'}}>
+        <p className="text-xs text-black tracking-widest font-medium" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+          INSTANT WORKOUTS • ZERO PLANNING • MAXIMUM RESULTS
+        </p>
+      </div>
+
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-50 bg-gray-900 py-4 transition-all duration-300" id="main-header">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-end">
+              <span className="text-xl font-tungsten text-white">WALKR</span>
+              <div className="w-2 h-2 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
+            </div>
+            
+            {/* Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="/workouts" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>WORKOUTS</a>
+              <a href="/#how-it-works" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>HOW IT WORKS</a>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
+            </nav>
+            
+            {/* CTA Button */}
+            <button 
+              className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90" 
+              style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
+            >
+              START NOW
+            </button>
           </div>
         </div>
       </header>
@@ -19,7 +44,7 @@ const Workouts = () => {
           <h2 className="text-4xl md:text-5xl font-tungsten text-white mb-4">
             LET'S GO!
           </h2>
-          <p className="text-lg text-gray-400 max-w-xl mx-auto font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+          <p className="text-lg text-gray-400 max-w-xl mx-auto font-light tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
             Pick your goal, time, and equipment. Get your workout.
           </p>
         </div>
@@ -27,7 +52,7 @@ const Workouts = () => {
       </div>
       
       {/* Footer - Minimal */}
-      <footer className="py-3 bg-black">
+      <footer className="py-3 bg-gray-900">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex-1"></div>

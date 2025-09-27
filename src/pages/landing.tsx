@@ -28,6 +28,25 @@ const Landing = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Header scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const topBar = document.getElementById('top-bar');
+      const mainHeader = document.getElementById('main-header');
+      
+      if (window.scrollY > 50) {
+        topBar?.classList.add('opacity-0', '-translate-y-full');
+        mainHeader?.classList.add('shadow-lg');
+      } else {
+        topBar?.classList.remove('opacity-0', '-translate-y-full');
+        mainHeader?.classList.remove('shadow-lg');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     if (isVisible) {
       const timer = setInterval(() => {
@@ -43,21 +62,49 @@ const Landing = () => {
   }, [isVisible]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Logo Header */}
-      <header className="py-4 bg-black">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex items-end justify-center">
-            <span className="text-xl font-tungsten text-white">WALKR</span>
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-1 ml-1"></div>
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Top Bar */}
+      <div className="py-2 text-center transition-all duration-300" id="top-bar" style={{backgroundColor: '#ccff00'}}>
+        <p className="text-xs text-black tracking-widest font-medium" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+          INSTANT WORKOUTS • ZERO PLANNING • MAXIMUM RESULTS
+        </p>
+      </div>
+
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-50 bg-gray-900 py-4 transition-all duration-300" id="main-header">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-end">
+              <span className="text-xl font-tungsten text-white">WALKR</span>
+              <div className="w-2 h-2 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
+            </div>
+            
+            {/* Navigation + CTA */}
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex items-center space-x-4">
+                <a href="/workouts" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>WORKOUTS</a>
+                <a href="/#how-it-works" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>HOW IT WORKS</a>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
+              </nav>
+              
+              <Button 
+                onClick={() => navigate('/workouts')}
+                size="sm"
+                className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90" 
+                style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
+              >
+                START NOW
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center overflow-hidden" style={{minHeight: 'calc(100vh - 6rem)', paddingTop: '2rem'}}>
+      <section className="relative flex items-center justify-center overflow-hidden" style={{minHeight: 'calc(100vh - 8rem)', paddingTop: '2rem'}}>
         {/* Background */}
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0 bg-gray-900" />
         <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         
 
@@ -65,29 +112,29 @@ const Landing = () => {
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
           <div className="space-y-16">
             {/* Main Headline - Enhanced */}
-            <div className="space-y-8 animate-in fade-in duration-1000">
+            <div className="space-y-8">
               <h1 className="text-6xl md:text-8xl lg:text-9xl font-tungsten text-white leading-none tracking-tight">
                 FASTER.<br/>
                 STRONGER.<br/>
-                <span className="text-transparent bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text animate-pulse">
+                <span className="animate-pulse" style={{color: '#ccff00'}}>
                   SMARTER.
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium animate-in slide-in-from-bottom-4 duration-1000 delay-300" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
-                Same routine, same results. Break the cycle.
-              </p>
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-[2px] rounded-full inline-block animate-in slide-in-from-bottom-4 duration-1000 delay-500">
+              <div className="space-y-4">
+                <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+                  Same routine, same results. Break the cycle.
+                </p>
                 <Button 
                   onClick={() => navigate('/workouts')}
-                  size="lg"
-                  className="bg-black text-white hover:bg-gray-900 px-16 py-6 text-xl rounded-full transition-all duration-300 group" 
+                  size="default"
+                  className="text-black px-8 py-3 text-base rounded-full transition-all duration-300 hover:opacity-90" 
                   style={{
-                    fontFamily: '"Helvetica Neue", "Arial", sans-serif', 
+                    backgroundColor: '#ccff00',
+                    fontFamily: 'Blenderpro, sans-serif', 
                     fontWeight: '500'
                   }}
                 >
                   START TRAINING
-                  <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </div>
@@ -98,7 +145,7 @@ const Landing = () => {
       {/* How It Works Section - Enhanced */}
       <section className="py-20 bg-white text-black overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16 animate-in fade-in duration-1000">
+          <div className="text-center mb-16">
             <h2 className="text-5xl md:text-7xl font-tungsten text-black mb-6 tracking-tight">
               WHY WALKR?
             </h2>
@@ -126,7 +173,7 @@ const Landing = () => {
               {/* Step 2 - Enhanced */}
               <div className="text-center space-y-6 group">
                 <div className="relative">
-                  <div className="w-24 h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl">
+                  <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl">
                     <Target className="w-8 h-8 text-white" />
                   </div>
                   <div className="hidden md:block absolute top-12 left-full w-16 h-px bg-gradient-to-r from-gray-300 to-transparent -translate-x-8"></div>
@@ -153,7 +200,7 @@ const Landing = () => {
       </section>
 
       {/* Stats Section - Animated */}
-      <section ref={statsRef} className="py-32 bg-black">
+      <section ref={statsRef} className="py-32 bg-gray-800">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-16 max-w-6xl mx-auto text-center">
             <div className="space-y-6 group">
@@ -164,7 +211,7 @@ const Landing = () => {
               <p className="text-gray-400 font-light text-lg" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Never run out of variety</p>
             </div>
             <div className="space-y-6 group">
-              <div className="text-8xl font-tungsten text-transparent bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text transition-all duration-500 group-hover:scale-110">5-30</div>
+              <div className="text-8xl font-tungsten transition-all duration-500 group-hover:scale-110" style={{color: '#ccff00'}}>5-30</div>
               <p className="text-2xl font-tungsten text-gray-300 tracking-wide">MINUTES</p>
               <p className="text-gray-400 font-light text-lg" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Fits any schedule</p>
             </div>
@@ -178,7 +225,7 @@ const Landing = () => {
       </section>
 
       {/* How It Works - Marchon Style Sticky */}
-      <section className="bg-gray-50">
+      <section id="how-it-works" className="bg-gray-400">
         <div className="grid md:grid-cols-2">
           {/* Sticky Left Side */}
           <div className="md:sticky md:top-0 md:h-screen flex items-center py-32 px-6 md:px-12">
@@ -189,16 +236,16 @@ const Landing = () => {
             </div>
           </div>
           
-          {/* Scrolling Right Side - Black */}
-          <div className="bg-black py-32 px-6 md:px-12 min-h-screen">
+          {/* Scrolling Right Side - Charcoal */}
+          <div className="bg-gray-800 py-32 px-6 md:px-12 min-h-screen">
             <div className="space-y-32">
             {/* Step 1: Generate */}
             <div className="space-y-8">
-              <div className="w-1 h-16 bg-gradient-to-b from-blue-500 to-purple-600"></div>
+              <div className="w-1 h-16" style={{backgroundColor: '#ccff00'}}></div>
               <div>
                 <div className="text-sm text-gray-400 mb-2 tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>STEP ONE</div>
                 <h3 className="text-4xl font-tungsten text-white mb-6">GENERATE</h3>
-                <p className="text-xl text-gray-300 font-light leading-relaxed" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+                <p className="text-xl text-gray-300 font-light leading-relaxed tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   Advanced algorithms analyze your parameters to create bespoke workout sequences in milliseconds.
                 </p>
               </div>
@@ -211,7 +258,7 @@ const Landing = () => {
               <div>
                 <div className="text-sm text-gray-400 mb-2 tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>STEP TWO</div>
                 <h3 className="text-4xl font-tungsten text-white mb-6">EXECUTE</h3>
-                <p className="text-xl text-gray-300 font-light leading-relaxed" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+                <p className="text-xl text-gray-300 font-light leading-relaxed tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   Precision timing and seamless transitions guide you through each movement with professional accuracy.
                 </p>
               </div>
@@ -220,11 +267,11 @@ const Landing = () => {
 
             {/* Step 3: Share */}
             <div className="space-y-8">
-              <div className="w-1 h-16 bg-gradient-to-b from-pink-500 to-orange-500"></div>
+              <div className="w-1 h-16" style={{backgroundColor: '#ccff00'}}></div>
               <div>
                 <div className="text-sm text-gray-400 mb-2 tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>STEP THREE</div>
                 <h3 className="text-4xl font-tungsten text-white mb-6">AMPLIFY</h3>
-                <p className="text-xl text-gray-300 font-light leading-relaxed" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+                <p className="text-xl text-gray-300 font-light leading-relaxed tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   Seamlessly distribute your achievements across platforms to build momentum and accountability.
                 </p>
               </div>
@@ -233,11 +280,11 @@ const Landing = () => {
 
             {/* Step 4: Repeat */}
             <div className="space-y-8">
-              <div className="w-1 h-16 bg-green-500"></div>
+              <div className="w-1 h-16 bg-white"></div>
               <div>
                 <div className="text-sm text-gray-400 mb-2 tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>STEP FOUR</div>
                 <h3 className="text-4xl font-tungsten text-white mb-6">EVOLVE</h3>
-                <p className="text-xl text-gray-300 font-light leading-relaxed" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
+                <p className="text-xl text-gray-300 font-light leading-relaxed tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   Continuous variation ensures progressive adaptation and sustained engagement.
                 </p>
               </div>
@@ -253,24 +300,23 @@ const Landing = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <div className="max-w-5xl mx-auto space-y-16">
-            <h2 className="text-7xl md:text-9xl font-tungsten text-black leading-none tracking-tight animate-in fade-in duration-1000">
+            <div className="text-7xl md:text-9xl font-tungsten text-black tracking-tight" style={{lineHeight: '0.8'}}>
               READY TO<br/>
-              <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
-                TRANSFORM?
+              <span className="text-5xl md:text-7xl text-black" style={{backgroundColor: '#ccff00', padding: '0.25rem 0.75rem', borderRadius: '0.5rem'}}>
+                TRANSFORM
               </span>
-            </h2>
-            <div className="animate-in slide-in-from-bottom-4 duration-1000 delay-300">
+            </div>
+            <div>
               <Button 
                 onClick={() => navigate('/workouts')}
-                size="lg"
-                className="bg-black text-white hover:bg-gray-900 px-16 py-6 text-xl rounded-full transition-all duration-300 group"
+                size="default"
+                className="bg-black text-white hover:bg-gray-900 px-8 py-3 text-base rounded-full transition-all duration-300"
                 style={{
-                  fontFamily: '"Helvetica Neue", "Arial", sans-serif', 
+                  fontFamily: 'Blenderpro, sans-serif', 
                   fontWeight: '500'
                 }}
               >
                 START YOUR JOURNEY
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
           </div>
@@ -278,7 +324,7 @@ const Landing = () => {
       </section>
 
       {/* Footer - Minimal */}
-      <footer className="py-3 bg-black">
+      <footer className="py-3 bg-gray-900">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex-1"></div>
