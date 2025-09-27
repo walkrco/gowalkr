@@ -75,7 +75,7 @@ jobs:
     - name: Build Lambda
       run: |
         cd lambda
-        npm ci --production
+        npm ci
         npm run build
 
     - name: Deploy Lambda
