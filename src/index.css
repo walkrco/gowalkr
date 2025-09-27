@@ -12,13 +12,13 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 16 100% 60%;
+    --primary: 81 100% 60%;
     --primary-foreground: 0 0% 98%;
     --secondary: 210 11% 15%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 16 100% 60%;
+    --accent: 81 100% 60%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -39,9 +39,9 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --neon-orange: 16 100% 60%;
+    --neon-lime: 81 100% 60%;
     --neon-charcoal: 210 11% 15%;
-    --neon-light-orange: 24 100% 70%;
+    --neon-light-lime: 81 100% 70%;
   }
 
   .dark {
@@ -51,13 +51,13 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 16 100% 60%;
+    --primary: 81 100% 60%;
     --primary-foreground: 0 0% 98%;
     --secondary: 210 11% 15%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 16 100% 60%;
+    --accent: 81 100% 60%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -111,35 +111,35 @@
 }
 
 .bg-gradient-cta {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF7F50 100%);
+  background: #ccff00;
 }
 
-.text-neon-orange {
-  color: #FF6B35;
+.text-neon-lime {
+  color: #ccff00;
 }
 
 .text-neon-charcoal {
   color: #2C3E50;
 }
 
-.text-neon-light-orange {
-  color: #FF7F50;
+.text-neon-light-lime {
+  color: #ccff00;
 }
 
-.border-neon-orange\/30 {
-  border-color: rgba(255, 107, 53, 0.3);
+.border-neon-lime\/30 {
+  border-color: rgba(204, 255, 0, 0.3);
 }
 
 .border-neon-charcoal\/30 {
   border-color: rgba(44, 62, 80, 0.3);
 }
 
-.border-neon-light-orange\/30 {
-  border-color: rgba(255, 127, 80, 0.3);
+.border-neon-light-lime\/30 {
+  border-color: rgba(204, 255, 0, 0.3);
 }
 
 .shadow-glow {
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+  box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
 }
 
 /* Hide scrollbars for horizontal scroll */

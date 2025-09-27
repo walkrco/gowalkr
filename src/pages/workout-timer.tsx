@@ -158,7 +158,7 @@ const WorkoutTimer = () => {
         <div className="flex-1"></div>
         <div className="flex items-end">
           <span className="text-xl font-tungsten text-white">WALKR</span>
-          <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mb-1 ml-1"></div>
+          <div className="w-3 h-3 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
         </div>
         <div className="flex-1 flex justify-end">
           <Button
@@ -176,7 +176,8 @@ const WorkoutTimer = () => {
       <div className="px-6 mb-4">
         <div className="w-full bg-gray-800 rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full transition-all duration-300"
+            className="h-2 rounded-full transition-all duration-300"
+            style={{backgroundColor: '#ccff00'}}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -195,7 +196,7 @@ const WorkoutTimer = () => {
               <h2 className="text-3xl font-tungsten text-white">WORKOUT COMPLETE!</h2>
               <p className="text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>Total time: {formatTotalTime(workoutState.totalElapsed)}</p>
               <div className="space-y-3">
-                <Button onClick={resetWorkout} className="w-full bg-gradient-to-r from-orange-500 to-orange-600">
+                <Button onClick={resetWorkout} className="w-full text-black hover:opacity-90" style={{backgroundColor: '#ccff00'}}>
                   <RotateCcw className="w-4 h-4 mr-2" />
                   Do It Again
                 </Button>
@@ -240,7 +241,8 @@ const WorkoutTimer = () => {
                   <Button
                     onClick={startWorkout}
                     size="lg"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 px-8"
+                    className="text-black hover:opacity-90 px-8"
+                    style={{backgroundColor: '#ccff00'}}
                   >
                     <Play className="w-6 h-6 mr-2" />
                     Start Workout
