@@ -1,7 +1,53 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap, Target, Share2, Twitter, Instagram, Youtube } from "lucide-react";
+import { ArrowRight, Zap, Target, Share2, Twitter, Instagram, Youtube, User, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/auth-context";
+import { AuthModal } from "@/components/auth/auth-modal";
+
+const AuthButton = () => {
+  const { user, signOut } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const navigate = useNavigate();
+
+  if (user) {
+    return (
+      <div className="flex items-center space-x-2">
+        <Button
+          onClick={() => navigate('/workouts')}
+          size="sm"
+          className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90"
+          style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
+        >
+          <User className="w-3 h-3 mr-1" />
+          {user.email.split('@')[0]}
+        </Button>
+        <Button
+          onClick={signOut}
+          size="sm"
+          variant="ghost"
+          className="text-gray-300 hover:text-white px-2 py-2"
+        >
+          <LogOut className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Button
+        onClick={() => setShowAuthModal(true)}
+        size="sm"
+        className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90"
+        style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
+      >
+        SIGN IN
+      </Button>
+      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+    </>
+  );
+};
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -88,14 +134,7 @@ const Landing = () => {
                 <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
               </nav>
               
-              <Button 
-                onClick={() => navigate('/workouts')}
-                size="sm"
-                className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90" 
-                style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
-              >
-                START NOW
-              </Button>
+              <AuthButton />
             </div>
           </div>
         </div>
