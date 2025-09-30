@@ -144,7 +144,7 @@ const WorkoutTimer = () => {
   };
 
   if (!workout) {
-    return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading workout...</div>;
+    return <div className="min-h-screen flex items-center justify-center text-white" style={{backgroundColor: '#141414'}}>Loading workout...</div>;
   }
 
   const currentExercise = workout.exercises[workoutState.currentExerciseIndex];
@@ -152,20 +152,23 @@ const WorkoutTimer = () => {
   const isWorkoutComplete = workoutState.currentExerciseIndex >= workout.exercises.length && !workoutState.isActive;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen text-white flex flex-col" style={{backgroundColor: '#141414'}}>
+      <style>{`body { background-color: #141414; }`}</style>
       {/* Header */}
       <div className="flex items-center p-6">
         <div className="flex-1"></div>
-        <div className="flex items-end">
-          <span className="text-xl font-tungsten text-white">WALKR</span>
-          <div className="w-3 h-3 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
+        <div className="flex items-center">
+          <a href="/" className="cursor-pointer">
+            <img src="/logo.svg" alt="WALKR" className="h-10 mr-auto" style={{imageRendering: 'crisp-edges'}} />
+          </a>
         </div>
         <div className="flex-1 flex justify-end">
           <Button
             onClick={exitWorkout}
             variant="ghost"
             size="sm"
-            className="text-white hover:bg-gray-800"
+            className="text-white"
+            style={{'&:hover': {backgroundColor: '#141414'}}}
           >
             <X className="w-5 h-5" />
           </Button>
@@ -174,11 +177,10 @@ const WorkoutTimer = () => {
 
       {/* Progress Bar */}
       <div className="px-6 mb-4">
-        <div className="w-full bg-gray-800 rounded-full h-2">
+        <div className="w-full rounded-full h-2" style={{backgroundColor: '#141414'}}>
           <div 
             className="h-2 rounded-full transition-all duration-300"
-            style={{backgroundColor: '#ccff00'}}
-            style={{ width: `${progress}%` }}
+            style={{backgroundColor: '#ccff00', width: `${progress}%`}}
           ></div>
         </div>
         <div className="flex justify-between text-sm text-white mt-2">
@@ -190,7 +192,7 @@ const WorkoutTimer = () => {
       {/* Main Timer Area */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-6">
         {isWorkoutComplete ? (
-          <Card className="bg-gray-800 border-gray-600 text-center p-8">
+          <Card className="text-center p-8" style={{backgroundColor: '#141414', borderColor: '#141414'}}>
             <CardContent className="space-y-6">
               <div className="text-6xl">🎉</div>
               <h2 className="text-3xl font-tungsten text-white">WORKOUT COMPLETE!</h2>
@@ -219,7 +221,7 @@ const WorkoutTimer = () => {
             </div>
 
             {/* Current Exercise */}
-            <Card className="bg-gray-800 border-gray-600 w-full max-w-md mb-8">
+            <Card className="w-full max-w-md mb-8" style={{backgroundColor: '#141414', borderColor: '#141414'}}>
               <CardContent className="text-center p-6">
                 <div className="text-xl mb-2 text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                   {workoutState.isResting ? "🛌 Get Ready!" : currentExercise}
@@ -252,14 +254,16 @@ const WorkoutTimer = () => {
                     <Button
                       onClick={pauseWorkout}
                       size="lg"
-                      className="bg-gray-800 text-white hover:bg-gray-700 border border-gray-600"
+                      className="text-white border"
+                      style={{backgroundColor: '#141414', borderColor: '#141414'}}
                     >
                       {workoutState.isPaused ? <Play className="w-6 h-6" /> : <Pause className="w-6 h-6" />}
                     </Button>
                     <Button
                       onClick={skipExercise}
                       size="lg"
-                      className="bg-gray-800 text-white hover:bg-gray-700 border border-gray-600"
+                      className="text-white border"
+                      style={{backgroundColor: '#141414', borderColor: '#141414'}}
                     >
                       <SkipForward className="w-6 h-6" />
                     </Button>
@@ -272,7 +276,8 @@ const WorkoutTimer = () => {
                   onClick={() => navigate(-1)}
                   variant="ghost"
                   size="sm"
-                  className="text-gray-400 hover:text-white hover:bg-gray-800"
+                  className="text-gray-400 hover:text-white"
+                  style={{'&:hover': {backgroundColor: '#141414'}}}
                 >
                   ← New Workout
                 </Button>
@@ -283,7 +288,7 @@ const WorkoutTimer = () => {
       </div>
       
       {/* Footer - Minimal */}
-      <footer className="py-3 bg-gray-900">
+      <footer className="py-3" style={{backgroundColor: '#141414'}}>
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex-1"></div>

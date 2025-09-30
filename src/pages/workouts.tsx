@@ -3,7 +3,8 @@ import { Twitter, Instagram, Youtube } from "lucide-react";
 
 const Workouts = () => {
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#141414'}}>
+      <style>{`body { background-color: #141414; }`}</style>
       {/* Top Bar */}
       <div className="py-2 text-center transition-all duration-300" id="top-bar" style={{backgroundColor: '#ccff00'}}>
         <p className="text-xs text-black tracking-widest font-medium" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
@@ -12,29 +13,31 @@ const Workouts = () => {
       </div>
 
       {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-gray-900 py-4 transition-all duration-300" id="main-header">
+      <header className="sticky top-0 z-50 py-4 transition-all duration-300" id="main-header" style={{backgroundColor: '#141414'}}>
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-end">
-              <span className="text-xl font-tungsten text-white">WALKR</span>
-              <div className="w-2 h-2 rounded-full mb-1 ml-1" style={{backgroundColor: '#ccff00'}}></div>
+            <div className="flex items-center">
+              <a href="/" className="cursor-pointer">
+                <img src="/logo.svg" alt="WALKR" className="h-10 mr-auto" style={{imageRendering: 'crisp-edges'}} />
+              </a>
             </div>
             
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="/workouts" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>WORKOUTS</a>
-              <a href="/#how-it-works" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>HOW IT WORKS</a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
-            </nav>
-            
-            {/* CTA Button */}
-            <button 
-              className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90" 
-              style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
-            >
-              START NOW
-            </button>
+            {/* Navigation + CTA */}
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex items-center space-x-4">
+                <a href="/workouts" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>WORKOUTS</a>
+                <a href="/#how-it-works" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>HOW IT WORKS</a>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
+              </nav>
+              
+              <button 
+                className="text-black px-4 py-2 text-xs rounded-full transition-all duration-300 hover:opacity-90" 
+                style={{backgroundColor: '#ccff00', fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}
+              >
+                START NOW
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -42,17 +45,17 @@ const Workouts = () => {
       <div className="flex-1 container mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-tungsten text-white mb-4">
-            LET'S GO!
+            LET'S DO THIS.
           </h2>
-          <p className="text-lg text-gray-400 max-w-xl mx-auto font-light tracking-widest" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
-            Pick your goal, time, and equipment. Get your workout.
+          <p className="text-lg text-gray-400 max-w-xl mx-auto font-light tracking-widest">
+            Your fitness, your way, your time.
           </p>
         </div>
         <WorkoutGenerator />
       </div>
       
       {/* Footer - Minimal */}
-      <footer className="py-3 bg-gray-900">
+      <footer className="py-3" style={{backgroundColor: '#141414'}}>
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex-1"></div>

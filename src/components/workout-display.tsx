@@ -20,12 +20,12 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       toast({
-        title: "Copied to clipboard! 📋",
+        title: "Copied to clipboard!",
         description: "Your workout is ready to share!",
       });
     } catch (error) {
       toast({
-        title: "Copy failed 😅",
+        title: "Copy failed",
         description: "Please try again or copy manually.",
         variant: "destructive",
       });
@@ -45,7 +45,7 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
         // Instagram doesn't have direct text sharing, so we'll copy to clipboard
         handleCopy();
         toast({
-          title: "Ready for insta! 📸",
+          title: "Ready for insta!",
           description: "Text copied! Paste it in your story or post.",
         });
         return;
@@ -53,7 +53,7 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
         // TikTok doesn't have direct web sharing, copy to clipboard
         handleCopy();
         toast({
-          title: "Ready for tiktok! 🎵",
+          title: "Ready for tiktok!",
           description: "Text copied! Create your workout video!",
         });
         return;
@@ -76,20 +76,25 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
           </p>
         </div>
 
-        <Card className="shadow-glow border-neon-blue/20">
-          <CardHeader className="text-center">
+        <Card className="shadow-glow border-2 border-white">
+          <CardHeader className="text-center pb-3">
             <CardTitle className="text-lg leading-tight">
               {workout.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
+          <CardContent className="space-y-3 pt-0">
+            <div className="space-y-1">
               {workout.exercises.map((exercise, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center p-2 rounded-lg bg-gradient-to-r from-secondary/50 to-accent/50"
+                  className="flex items-center gap-2 p-2 rounded-lg bg-gradient-to-r from-secondary/50 to-accent/50 hover:bg-gradient-to-r hover:from-neon-blue/20 hover:to-neon-pink/20 transition-colors"
                 >
-                  <span className="text-sm font-medium">{exercise}</span>
+                  <img 
+                    src="/favicon.ico" 
+                    alt="" 
+                    className="w-4 h-4 flex-shrink-0"
+                  />
+                  <span className="text-sm font-medium" style={{color: '#000000 !important'}}>{exercise}</span>
                 </div>
               ))}
             </div>
@@ -103,7 +108,7 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
             </div>
 
             <div className="text-center text-xs text-muted-foreground italic">
-              Copy this workout & challenge your friends! 🚀
+              Copy this workout & challenge your friends!
             </div>
           </CardContent>
         </Card>
@@ -116,7 +121,7 @@ export function WorkoutDisplay({ workout, onReset }: WorkoutDisplayProps) {
             onClick={handleCopy}
           >
             <Copy className="w-4 h-4 mr-2" />
-            {copied ? "Copied! ✅" : "Copy Workout"}
+            {copied ? "Copied!" : "Copy Workout"}
           </Button>
 
           <div className="grid grid-cols-3 gap-2">
