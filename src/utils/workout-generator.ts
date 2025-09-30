@@ -9,7 +9,7 @@ export interface WorkoutInputs {
 export interface GeneratedWorkout {
   id: string;
   title: string;
-  exercises: string[];
+  exercises: Exercise[];
   finisher: string;
   shareText: string;
   duration: number;
@@ -19,15 +19,25 @@ export function generateWorkout(inputs: WorkoutInputs): GeneratedWorkout {
   const { goal, time, equipment } = inputs;
   
   // Filter exercises based on inputs
+  const bodyweightEquipment = ['Bodyweight', 'Wall', 'Chair'];
+  
   let filteredExercises = exercises.filter(exercise => {
-    const matchesGoal = goal === "Quick Workout" || exercise.goal === goal || exercise.goal === "Full Body";
-    const matchesEquipment = 
-      equipment === "Full Gym" || 
-      exercise.equipment === equipment || 
-      exercise.equipment === "Bodyweight" ||
-      (equipment === "Dumbbells" && (exercise.equipment === "Dumbbells" || exercise.equipment === "Kettlebell"));
+    const matchesGoal = exercise.goal === goal || exercise.goal === "Full Body";
     
-    return matchesGoal && matchesEquipment;
+    let matchesEquipment: boolean;
+    if (equipment === 'Bodyweight') {
+      matchesEquipment = bodyweightEquipment.includes(exercise.equipment);
+    } else if (equipment === 'Full Gym') {
+      matchesEquipment = true;
+    } else {
+      matchesEquipment = exercise.equipment === equipment || bodyweightEquipment.includes(exercise.equipment);
+    }
+    
+    // For HIIT workouts, only include Medium and High intensity exercises
+    const matchesIntensity = goal === 'HIIT' ? 
+      (exercise.intensity === 'Medium' || exercise.intensity === 'High') : true;
+    
+    return matchesGoal && matchesEquipment && matchesIntensity;
   });
 
   // If not enough exercises, include bodyweight exercises
@@ -86,7 +96,7 @@ export function generateWorkout(inputs: WorkoutInputs): GeneratedWorkout {
   return {
     id: workoutId,
     title: title + workoutStructure,
-    exercises: selectedExercises.map(ex => ex.caption),
+    exercises: selectedExercises,
     finisher,
     shareText,
     duration: time

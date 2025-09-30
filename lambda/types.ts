@@ -4,6 +4,7 @@ export interface Exercise {
   goal: string;
   equipment: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
+  intensity: 'Low' | 'Medium' | 'High';
   tikTokCaption: string;
 }
 

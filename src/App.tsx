@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./pages/landing";
 import Workouts from "./pages/workouts";
+import Features from "./pages/features";
+import Contact from "./pages/contact";
 import NotFound from "./pages/not-found";
 import WorkoutTimer from "./pages/workout-timer";
 
@@ -19,6 +21,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/workouts" element={<Workouts />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/workout-timer" element={<WorkoutTimer />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

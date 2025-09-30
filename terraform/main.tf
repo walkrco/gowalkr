@@ -317,6 +317,14 @@ resource "aws_iam_policy" "lambda_policy" {
           aws_dynamodb_table.workouts.arn,
           "${aws_dynamodb_table.workouts.arn}/index/*"
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource = "*"
       }
     ]
   })
@@ -327,13 +335,13 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-# Lambda function
+# Lambda function for workout generator
 resource "aws_lambda_function" "workout_generator" {
   filename      = "lambda-deployment.zip"
   function_name = "workout-generator"
   role          = aws_iam_role.lambda_role.arn
   handler       = "dist/index.handler"
-  runtime       = "nodejs18.x"
+  runtime       = "nodejs22.x"
   timeout       = 30
 
   environment {
@@ -347,6 +355,27 @@ resource "aws_lambda_function" "workout_generator" {
     aws_iam_role_policy_attachment.lambda_policy_attachment,
     aws_cloudwatch_log_group.lambda_log_group,
   ]
+}
+
+# Lambda function for contact form
+resource "aws_lambda_function" "contact_form" {
+  filename      = "lambda-deployment.zip"
+  function_name = "contact-form"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "dist/contact.handler"
+  runtime       = "nodejs22.x"
+  timeout       = 30
+
+  depends_on = [
+    aws_iam_role_policy_attachment.lambda_policy_attachment,
+    aws_cloudwatch_log_group.contact_lambda_log_group,
+  ]
+}
+
+# CloudWatch Log Group for Contact Lambda
+resource "aws_cloudwatch_log_group" "contact_lambda_log_group" {
+  name              = "/aws/lambda/contact-form"
+  retention_in_days = 14
 }
 
 # CloudWatch Log Group for Lambda
@@ -404,6 +433,14 @@ resource "aws_apigatewayv2_integration" "workout_generator" {
   integration_method = "POST"
 }
 
+resource "aws_apigatewayv2_integration" "contact_form" {
+  api_id = aws_apigatewayv2_api.workout_api.id
+
+  integration_uri    = aws_lambda_function.contact_form.invoke_arn
+  integration_type   = "AWS_PROXY"
+  integration_method = "POST"
+}
+
 resource "aws_apigatewayv2_route" "workout_generator" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
@@ -411,10 +448,26 @@ resource "aws_apigatewayv2_route" "workout_generator" {
   target    = "integrations/${aws_apigatewayv2_integration.workout_generator.id}"
 }
 
-resource "aws_lambda_permission" "api_gw" {
+resource "aws_apigatewayv2_route" "contact_form" {
+  api_id = aws_apigatewayv2_api.workout_api.id
+
+  route_key = "POST /contact"
+  target    = "integrations/${aws_apigatewayv2_integration.contact_form.id}"
+}
+
+resource "aws_lambda_permission" "api_gw_workout" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = "workout-generator"
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.workout_api.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "api_gw_contact" {
+  statement_id  = "AllowExecutionFromAPIGatewayContact"
+  action        = "lambda:InvokeFunction"
+  function_name = "contact-form"
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.workout_api.execution_arn}/*/*"

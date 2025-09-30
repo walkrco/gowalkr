@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { WorkoutCard } from "./workout-card";
-import { fitnessGoals, equipmentOptions } from "@/data/exercises";
+import { fitnessGoals, equipmentOptions, exercises, Exercise } from "@/data/exercises";
 import { generateWorkout, WorkoutInputs } from "@/utils/workout-generator";
 import { useToast } from "@/hooks/use-toast";
 import { Dumbbell, Clock, Target } from "lucide-react";
@@ -43,6 +43,48 @@ export function WorkoutGenerator() {
         description: "Your instant workout is generated!",
       });
     }, 1000);
+  };
+
+  const handleSwapExercise = (exerciseToSwap: Exercise) => {
+    const bodyweightEquipment = ['Bodyweight', 'Wall', 'Chair'];
+    
+    const alternatives = exercises.filter(ex => {
+      const goalMatch = ex.goal === exerciseToSwap.goal;
+      let equipmentMatch: boolean;
+      
+      if (equipment === 'Bodyweight') {
+        equipmentMatch = bodyweightEquipment.includes(ex.equipment);
+      } else if (equipment === 'Full Gym') {
+        equipmentMatch = true;
+      } else {
+        equipmentMatch = ex.equipment === equipment || bodyweightEquipment.includes(ex.equipment);
+      }
+      
+      return goalMatch && equipmentMatch && ex.name !== exerciseToSwap.name;
+    });
+    
+    if (alternatives.length === 0) {
+      toast({
+        title: "No alternatives",
+        description: "No alternative exercises found for this combination.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const randomAlt = alternatives[Math.floor(Math.random() * alternatives.length)];
+    
+    setGeneratedWorkout(prev => prev ? ({
+      ...prev,
+      exercises: prev.exercises.map(ex => 
+        ex.name === exerciseToSwap.name ? randomAlt : ex
+      )
+    }) : null);
+    
+    toast({
+      title: "Exercise swapped!",
+      description: `Replaced ${exerciseToSwap.name} with ${randomAlt.name}`,
+    });
   };
 
   return (
@@ -135,7 +177,7 @@ export function WorkoutGenerator() {
       {/* Generated Workout Display */}
       {generatedWorkout && (
         <div className="animate-in fade-in duration-500">
-          <WorkoutCard workout={generatedWorkout} />
+          <WorkoutCard workout={generatedWorkout} onSwapExercise={handleSwapExercise} />
         </div>
       )}
     </div>
