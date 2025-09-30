@@ -47,7 +47,7 @@ export function WorkoutGenerator() {
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
-      <Card className="bg-gray-800 shadow-card border-2" style={{borderColor: '#ccff0033'}}>
+      <Card className="shadow-card border-2 border-white" style={{backgroundColor: '#141414'}}>
         <CardHeader>
         </CardHeader>
         <CardContent className="space-y-6">

@@ -54,20 +54,19 @@ export function generateWorkout(inputs: WorkoutInputs): GeneratedWorkout {
   
   // Add finisher exercise
   const finisherOptions = [
-    "50 Jumping Jacks 🎉",
-    "30 sec Victory Dance 🕺", 
-    "1 min Celebration Plank 🧱",
-    "20 Victory Squats 🏆",
-    "Flex in the Mirror 💪"
+    "50 Jumping Jacks",
+    "30 sec Victory Dance", 
+    "1 min Celebration Plank",
+    "20 Victory Squats",
+    "Flex in the Mirror"
   ];
   const finisher = finisherOptions[Math.floor(Math.random() * finisherOptions.length)];
 
   // Generate workout ID
   const workoutId = Math.random().toString(36).substr(2, 9);
 
-  // Create title with emojis
-  const equipmentEmoji = equipment === "Bodyweight" ? "💪" : equipment === "Dumbbells" ? "🏋️" : "🏋️‍♀️";
-  const title = `🔥 Your WALKR Workout (${time} min, ${equipment})`;
+  // Create title
+  const title = `Your WALKR Workout (${time} min, ${equipment})`;
 
   // Add workout structure based on time
   let workoutStructure = "";
@@ -82,7 +81,7 @@ export function generateWorkout(inputs: WorkoutInputs): GeneratedWorkout {
 
   // Generate share text
   const exerciseList = selectedExercises.map(ex => `• ${ex.caption}`).join('\n');
-  const shareText = `${title}${workoutStructure}\n${exerciseList}\nFinish strong: ${finisher}\n\nCopy this workout & challenge your friends! 🚀\n\n#Walkr #WorkoutChallenge #FitnessMotivation`;
+  const shareText = `${title}${workoutStructure}\n${exerciseList}\nFinish strong: ${finisher}\n\nCopy this workout & challenge your friends!\n\n#Walkr #WorkoutChallenge #FitnessMotivation`;
 
   return {
     id: workoutId,
