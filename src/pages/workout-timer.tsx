@@ -83,7 +83,7 @@ const WorkoutTimer = () => {
     }
 
     return () => clearInterval(interval);
-  }, [workoutState.isActive, workoutState.isPaused, workoutState.timeRemaining, workoutState.isResting, workout]);
+  }, [workoutState.isActive, workoutState.isPaused, workoutState.timeRemaining, workoutState.isResting, workoutState.currentExerciseIndex, workout]);
 
   const startWorkout = () => {
     setWorkoutState(prev => ({ ...prev, isActive: true, isPaused: false }));

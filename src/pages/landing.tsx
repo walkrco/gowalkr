@@ -104,14 +104,14 @@ const Landing = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative flex items-start justify-center overflow-hidden pt-32 md:pt-12 pb-16" style={{minHeight: '100vh'}}>
+      <section className="relative flex items-center justify-center overflow-hidden" style={{height: '100vh', marginTop: '-80px', paddingTop: '80px'}}>
         {/* Background */}
         <div className="absolute inset-0" style={{backgroundColor: '#141414'}} />
-        <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-cover bg-center opacity-10" />
         
 
         {/* Content */}
-        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+        <div className="relative z-40 text-center max-w-6xl mx-auto px-6">
           <div className="space-y-16">
             {/* Main Headline - Enhanced */}
             <div className="space-y-8">
@@ -303,13 +303,16 @@ const Landing = () => {
       <section className="py-20 bg-white text-black relative overflow-hidden">
         <div className="absolute inset-0 bg-white"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
-          <div className="max-w-5xl mx-auto space-y-8 md:space-y-20">
+          <div className="max-w-5xl mx-auto space-y-8 md:space-y-12">
             <div className="text-5xl md:text-7xl lg:text-9xl font-tungsten text-black tracking-tight px-4" style={{lineHeight: '1.1'}}>
               READY TO<br/>
               TRANSFORM?
             </div>
             <div>
-              <button className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:text-[#ccff00] transition-all duration-300">
+              <button 
+                onClick={() => navigate('/workouts')}
+                className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:text-[#ccff00] transition-all duration-300"
+              >
                 START NOW
               </button>
             </div>

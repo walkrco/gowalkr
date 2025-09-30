@@ -15,6 +15,7 @@ const exercises: Exercise[] = frontendExercises.map((ex, index) => ({
   goal: ex.goal,
   equipment: ex.equipment,
   difficulty: ex.difficulty,
+  intensity: ex.intensity,
   tikTokCaption: ex.caption
 }));
 
@@ -26,8 +27,7 @@ function getFilteredExercises(goal: string, equipment: string): Exercise[] {
   const bodyweightEquipment = ['Bodyweight', 'Wall', 'Chair'];
   
   return exercises.filter(exercise => {
-    const goalMatch = goal === 'All' || exercise.goal === goal || 
-                     (goal === 'Quick Workout' && ['Cardio', 'Full Body'].includes(exercise.goal));
+    const goalMatch = goal === 'All' || exercise.goal === goal;
     
     let equipmentMatch: boolean;
     if (equipment === 'Bodyweight') {
@@ -39,7 +39,11 @@ function getFilteredExercises(goal: string, equipment: string): Exercise[] {
                       bodyweightEquipment.includes(exercise.equipment);
     }
     
-    return goalMatch && equipmentMatch;
+    // For HIIT workouts, only include Medium and High intensity exercises
+    const intensityMatch = goal === 'HIIT' ? 
+      (exercise.intensity === 'Medium' || exercise.intensity === 'High') : true;
+    
+    return goalMatch && equipmentMatch && intensityMatch;
   });
 }
 
