@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play, Pause, SkipForward, X, RotateCcw, Twitter, Instagram, Youtube } from "lucide-react";
-import { generateWorkout, WorkoutInputs } from "@/utils/workout-generator";
 
 interface WorkoutState {
   currentExerciseIndex: number;
@@ -15,10 +14,7 @@ interface WorkoutState {
 }
 
 const WorkoutTimer = () => {
-  const { workoutData } = useParams();
   const navigate = useNavigate();
-  
-  // Parse workout data from URL params (you'd normally get this from state/API)
   const [workout, setWorkout] = useState(null);
   const [workoutState, setWorkoutState] = useState<WorkoutState>({
     currentExerciseIndex: 0,
@@ -29,17 +25,17 @@ const WorkoutTimer = () => {
     totalElapsed: 0
   });
 
-  // Mock workout data - in real app this would come from props/state
+  const location = useLocation();
+  
   useEffect(() => {
-    // Generate a sample workout for demo
-    const sampleInputs: WorkoutInputs = {
-      goal: "Strength",
-      time: 15,
-      equipment: "Bodyweight"
-    };
-    const generatedWorkout = generateWorkout(sampleInputs);
-    setWorkout(generatedWorkout);
-  }, []);
+    const workoutFromState = location.state?.workout;
+    if (workoutFromState) {
+      setWorkout(workoutFromState);
+    } else {
+      // Fallback if no workout passed
+      navigate('/');
+    }
+  }, [location.state, navigate]);
 
   // Timer logic
   useEffect(() => {
@@ -167,8 +163,7 @@ const WorkoutTimer = () => {
             onClick={exitWorkout}
             variant="ghost"
             size="sm"
-            className="text-white"
-            style={{'&:hover': {backgroundColor: '#141414'}}}
+            className="text-white hover:bg-gray-800"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -224,12 +219,12 @@ const WorkoutTimer = () => {
             <Card className="w-full max-w-md mb-8" style={{backgroundColor: '#141414', borderColor: '#141414'}}>
               <CardContent className="text-center p-6">
                 <div className="text-xl mb-2 text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
-                  {workoutState.isResting ? "🛌 Get Ready!" : currentExercise}
+                  {workoutState.isResting ? "🛌 Get Ready!" : currentExercise?.caption || currentExercise}
                 </div>
                 {!workoutState.isResting && (
                   <p className="text-white font-light" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>
                     Next: {workoutState.currentExerciseIndex + 1 < workout.exercises.length 
-                      ? workout.exercises[workoutState.currentExerciseIndex + 1] 
+                      ? workout.exercises[workoutState.currentExerciseIndex + 1]?.caption || workout.exercises[workoutState.currentExerciseIndex + 1]
                       : workout.finisher}
                   </p>
                 )}
@@ -276,8 +271,7 @@ const WorkoutTimer = () => {
                   onClick={() => navigate(-1)}
                   variant="ghost"
                   size="sm"
-                  className="text-gray-400 hover:text-white"
-                  style={{'&:hover': {backgroundColor: '#141414'}}}
+                  className="text-gray-400 hover:text-white hover:bg-gray-800"
                 >
                   ← New Workout
                 </Button>

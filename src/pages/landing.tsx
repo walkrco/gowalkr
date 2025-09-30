@@ -86,8 +86,8 @@ const Landing = () => {
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex items-center space-x-4">
                 <a href="/workouts" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>WORKOUTS</a>
-                <a href="/#how-it-works" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>HOW IT WORKS</a>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>ABOUT</a>
+                <a href="/features" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>FEATURES</a>
+                <a href="/contact" className="text-gray-300 hover:text-white transition-colors text-sm tracking-wide" style={{fontFamily: '"Helvetica Neue", "Arial", sans-serif'}}>CONTACT</a>
               </nav>
               
               <Button 

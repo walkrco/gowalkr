@@ -100,7 +100,7 @@ export function WorkoutCard({ workout, onSwapExercise }: WorkoutCardProps) {
         </div>
 
         <Button 
-          onClick={() => navigate('/workout-timer')}
+          onClick={() => navigate('/workout-timer', { state: { workout } })}
           size="lg"
           className="w-full text-black hover:opacity-90 font-tungsten"
           style={{backgroundColor: '#ccff00'}}
