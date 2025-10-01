@@ -56,7 +56,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     const emailParams = {
-      Source: 'walkrco@outlook.com', // Using verified email
+      Source: 'noreply@gowalkr.com', // Using verified domain
       Destination: {
         ToAddresses: [toEmail]
       },

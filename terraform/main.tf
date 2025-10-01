@@ -157,6 +157,19 @@ resource "aws_cloudfront_distribution" "frontend" {
     origin_id                = "S3-${var.domain_name}"
   }
 
+  origin {
+    domain_name = "${aws_apigatewayv2_api.workout_api.id}.execute-api.${var.aws_region}.amazonaws.com"
+    origin_id   = "API-${var.domain_name}"
+    origin_path = "/prod"
+    
+    custom_origin_config {
+      http_port              = 443
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "Walkr frontend distribution"
@@ -185,10 +198,31 @@ resource "aws_cloudfront_distribution" "frontend" {
 
   # Cache behavior for API calls
   ordered_cache_behavior {
-    path_pattern     = "/api/*"
+    path_pattern     = "/api/contact"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-${var.domain_name}"
+    target_origin_id = "API-${var.domain_name}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization", "Content-Type"]
+      cookies {
+        forward = "none"
+      }
+    }
+
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "/api/generateWorkout"
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "API-${var.domain_name}"
 
     forwarded_values {
       query_string = true
@@ -444,14 +478,14 @@ resource "aws_apigatewayv2_integration" "contact_form" {
 resource "aws_apigatewayv2_route" "workout_generator" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
-  route_key = "POST /generateWorkout"
+  route_key = "POST /api/generateWorkout"
   target    = "integrations/${aws_apigatewayv2_integration.workout_generator.id}"
 }
 
 resource "aws_apigatewayv2_route" "contact_form" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
-  route_key = "POST /contact"
+  route_key = "POST /api/contact"
   target    = "integrations/${aws_apigatewayv2_integration.contact_form.id}"
 }
 
