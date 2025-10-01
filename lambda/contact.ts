@@ -24,7 +24,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   try {
     const { name, email, subject, message }: ContactFormData = JSON.parse(event.body || '{}');
-    
+
     // Validate required fields
     if (!name || !email || !subject || !message) {
       return {
@@ -37,7 +37,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     // Determine recipient based on subject
     const toEmail = 'walkrco@outlook.com'; // Default
     let subjectPrefix = '[WALKR Contact]';
-    
+
     switch (subject) {
       case 'business':
         subjectPrefix = '[WALKR Business]';
@@ -56,7 +56,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     const emailParams = {
-      Source: 'noreply@walkrco.com', // You'll need to verify this domain in SES
+      Source: 'walkrco@outlook.com', // Using verified email
       Destination: {
         ToAddresses: [toEmail]
       },
@@ -102,20 +102,22 @@ Sent from WALKR Contact Form
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ 
-        success: true, 
-        message: 'Message sent successfully' 
+      body: JSON.stringify({
+        success: true,
+        message: 'Message sent successfully'
       })
     };
 
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
-        error: 'Failed to send message. Please try again.' 
+      body: JSON.stringify({
+        error: 'Failed to send message. Please emailing us directly.',
+        debug: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
       })
     };
   }
-};
+}
