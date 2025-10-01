@@ -56,6 +56,17 @@ jobs:
         cd terraform
         terraform validate
 
+    - name: Build Lambda
+      run: |
+        cd lambda
+        npm ci
+        npm run build
+
+    - name: Package Lambda Code
+      run: |
+        cd lambda
+        zip -r ../terraform/lambda-deployment.zip dist/ node_modules/ package.json
+
     - name: Terraform Plan
       run: |
         cd terraform
@@ -71,24 +82,6 @@ jobs:
       run: npm run build
       env:
         CI: false
-
-    - name: Build Lambda
-      run: |
-        cd lambda
-        npm ci
-        npm run build
-
-    - name: Deploy Lambda
-      uses: aws-actions/aws-lambda-deploy@v1.1.0
-      with:
-        function-name: ${{ env.LAMBDA_FUNCTION_NAME }}
-        code-artifacts-dir: lambda/
-        handler: dist/index.handler
-        runtime: nodejs22.x
-        exclude: |
-          *.ts
-          tsconfig.json
-          package-lock.json
 
     - name: Deploy to S3
       run: |
