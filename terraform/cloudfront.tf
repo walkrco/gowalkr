@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "frontend" {
     domain_name = "${aws_apigatewayv2_api.workout_api.id}.execute-api.${var.aws_region}.amazonaws.com"
     origin_id   = "API-${var.domain_name}"
     origin_path = "/prod"
-    
+
     custom_origin_config {
       http_port              = 443
       https_port             = 443
@@ -57,8 +57,8 @@ resource "aws_cloudfront_distribution" "frontend" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600    # 1 hour
-    max_ttl                = 86400   # 24 hours
+    default_ttl            = 3600  # 1 hour
+    max_ttl                = 86400 # 24 hours
     compress               = true
   }
 
@@ -72,7 +72,7 @@ resource "aws_cloudfront_distribution" "frontend" {
     forwarded_values {
       query_string = true
       # Forward necessary headers for API requests
-      headers      = ["Authorization", "Content-Type"]
+      headers = ["Authorization", "Content-Type"]
       cookies {
         forward = "none"
       }
@@ -96,7 +96,7 @@ resource "aws_cloudfront_distribution" "frontend" {
     forwarded_values {
       query_string = true
       # Forward necessary headers for API requests
-      headers      = ["Authorization", "Content-Type"]
+      headers = ["Authorization", "Content-Type"]
       cookies {
         forward = "none"
       }

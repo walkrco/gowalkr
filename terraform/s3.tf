@@ -29,7 +29,7 @@ resource "aws_s3_bucket_website_configuration" "frontend" {
 # Enable versioning for frontend bucket (allows rollback if needed)
 resource "aws_s3_bucket_versioning" "frontend" {
   bucket = aws_s3_bucket.frontend.id
-  
+
   versioning_configuration {
     status = "Enabled"
   }

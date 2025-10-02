@@ -5,9 +5,9 @@
 # DynamoDB table for storing workout data
 resource "aws_dynamodb_table" "workouts" {
   name         = "${var.app_name}-workouts"
-  billing_mode = "PAY_PER_REQUEST"  # On-demand billing for variable workloads
-  hash_key     = "pk"               # Partition key
-  range_key    = "sk"               # Sort key
+  billing_mode = "PAY_PER_REQUEST" # On-demand billing for variable workloads
+  hash_key     = "pk"              # Partition key
+  range_key    = "sk"              # Sort key
 
   # Primary key attributes
   attribute {
@@ -36,7 +36,7 @@ resource "aws_dynamodb_table" "workouts" {
     name            = "goal-equipment-index"
     hash_key        = "goal"
     range_key       = "equipment"
-    projection_type = "ALL"  # Project all attributes
+    projection_type = "ALL" # Project all attributes
   }
 
   # Enable point-in-time recovery for data protection

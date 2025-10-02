@@ -61,7 +61,7 @@ resource "aws_iam_policy" "lambda_policy" {
           "ses:SendEmail",
           "ses:SendRawEmail"
         ]
-        Resource = "*"  # SES doesn't support resource-level permissions
+        Resource = "*" # SES doesn't support resource-level permissions
       }
     ]
   })

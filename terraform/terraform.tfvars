@@ -2,10 +2,10 @@
 # Terraform Variables - Production Configuration
 # =============================================================================
 
-app_name     = "walkr"
-environment  = "prod"
-aws_region   = "eu-west-2"
-domain_name  = "gowalkr.com"
+app_name    = "walkr"
+environment = "prod"
+aws_region  = "eu-west-2"
+domain_name = "gowalkr.com"
 
 # Route 53 Configuration (from your existing setup)
 hosted_zone_id   = "Z0143137QHNQ1S0TYPKU"

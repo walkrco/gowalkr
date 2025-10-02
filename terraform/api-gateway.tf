@@ -25,7 +25,7 @@ resource "aws_apigatewayv2_api" "workout_api" {
     allow_methods     = ["*"]
     allow_origins     = ["https://${var.domain_name}", "https://www.${var.domain_name}"]
     expose_headers    = ["date", "keep-alive"]
-    max_age           = 86400  # Cache preflight requests for 24 hours
+    max_age           = 86400 # Cache preflight requests for 24 hours
   }
 
   tags = {
@@ -38,7 +38,7 @@ resource "aws_apigatewayv2_stage" "workout_api" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
   name        = "prod"
-  auto_deploy = true  # Automatically deploy API changes
+  auto_deploy = true # Automatically deploy API changes
 
   # Enable access logging for debugging and monitoring
   access_log_settings {
@@ -70,7 +70,7 @@ resource "aws_apigatewayv2_integration" "workout_generator" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
   integration_uri        = aws_lambda_function.workout_generator.invoke_arn
-  integration_type       = "AWS_PROXY"  # Lambda proxy integration
+  integration_type       = "AWS_PROXY" # Lambda proxy integration
   integration_method     = "POST"
   payload_format_version = "2.0"
 }
@@ -80,7 +80,7 @@ resource "aws_apigatewayv2_integration" "contact_form" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
   integration_uri        = aws_lambda_function.contact_form.invoke_arn
-  integration_type       = "AWS_PROXY"  # Lambda proxy integration
+  integration_type       = "AWS_PROXY" # Lambda proxy integration
   integration_method     = "POST"
   payload_format_version = "2.0"
 }
