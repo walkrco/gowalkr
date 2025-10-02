@@ -28,4 +28,3 @@ terraform/.terraform/
 terraform/.terraform.lock.hcl
 terraform/lambda-deployment.zip
 terraform/terraform.tfstate*
-terraform/*.tfvars

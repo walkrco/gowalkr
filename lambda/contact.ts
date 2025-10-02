@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 
 const sesClient = new SESClient({ region: 'eu-west-2' }); // London region
@@ -10,15 +10,15 @@ interface ContactFormData {
   message: string;
 }
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': 'https://gowalkr.com',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json'
   };
 
-  if (event.httpMethod === 'OPTIONS') {
+  if (event.requestContext.http.method === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
 
@@ -94,7 +94,7 @@ Sent from WALKR Contact Form
           }
         }
       },
-      ReplyToAddresses: [email] // So you can reply directly to the sender
+      ReplyToAddresses: [email]
     };
 
     await sesClient.send(new SendEmailCommand(emailParams));
@@ -110,13 +110,13 @@ Sent from WALKR Contact Form
 
   } catch (error) {
     console.error('Error sending email:', error);
-    console.error('Error details:', JSON.stringify(error, null, 2));
+    console.error('Event:', JSON.stringify(event, null, 2));
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
-        error: 'Failed to send message. Please emailing us directly.',
-        debug: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+        error: 'Failed to send message. Please try emailing us directly.',
+        debug: (error as Error).message
       })
     };
   }

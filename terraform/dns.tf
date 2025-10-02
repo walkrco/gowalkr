@@ -1,4 +1,8 @@
-# DNS records in management account
+# =============================================================================
+# DNS Records - Route 53
+# =============================================================================
+
+# Main domain DNS record (gowalkr.com -> CloudFront)
 resource "aws_route53_record" "main" {
   provider = aws.management
   zone_id  = var.hosted_zone_id
@@ -12,6 +16,7 @@ resource "aws_route53_record" "main" {
   }
 }
 
+# WWW subdomain DNS record (www.gowalkr.com -> CloudFront)
 resource "aws_route53_record" "www" {
   provider = aws.management
   zone_id  = var.hosted_zone_id
