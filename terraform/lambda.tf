@@ -28,7 +28,7 @@ resource "aws_lambda_function" "workout_generator" {
   function_name = "workout-generator"
   role          = aws_iam_role.lambda_role.arn
   handler       = "dist/index.handler"
-  runtime       = "nodejs22.x"
+  runtime       = var.lambda_runtime
   timeout       = var.lambda_timeout
   memory_size   = var.lambda_memory_size.workout_generator
 
@@ -61,7 +61,7 @@ resource "aws_lambda_function" "contact_form" {
   function_name = "contact-form"
   role          = aws_iam_role.lambda_role.arn
   handler       = "dist/contact.handler"
-  runtime       = "nodejs22.x"
+  runtime       = var.lambda_runtime
   timeout       = var.lambda_timeout
   memory_size   = var.lambda_memory_size.contact_form
 

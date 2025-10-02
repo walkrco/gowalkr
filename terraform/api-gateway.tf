@@ -25,7 +25,7 @@ resource "aws_apigatewayv2_api" "workout_api" {
     allow_methods     = ["*"]
     allow_origins     = ["https://${var.domain_name}", "https://www.${var.domain_name}"]
     expose_headers    = ["date", "keep-alive"]
-    max_age           = 86400 # Cache preflight requests for 24 hours
+    max_age           = var.cors_max_age # Cache preflight requests for 24 hours
   }
 
   tags = {
@@ -37,7 +37,7 @@ resource "aws_apigatewayv2_api" "workout_api" {
 resource "aws_apigatewayv2_stage" "workout_api" {
   api_id = aws_apigatewayv2_api.workout_api.id
 
-  name        = "prod"
+  name        = var.api_stage_name
   auto_deploy = true # Automatically deploy API changes
 
   # Enable access logging for debugging and monitoring

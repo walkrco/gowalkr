@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   origin {
     domain_name = "${aws_apigatewayv2_api.workout_api.id}.execute-api.${var.aws_region}.amazonaws.com"
     origin_id   = "API-${var.domain_name}"
-    origin_path = "/prod"
+    origin_path = "/${var.api_stage_name}"
 
     custom_origin_config {
       http_port              = 443
@@ -111,7 +111,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   }
 
   # Use all edge locations for best global performance
-  price_class = "PriceClass_All"
+  price_class = var.cloudfront_price_class
 
   # No geographic restrictions
   restrictions {

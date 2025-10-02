@@ -29,16 +29,19 @@ variable "certificate_region" {
 variable "domain_name" {
   description = "Primary domain name for the application"
   type        = string
+  default     = "gowalkr.com"
 }
 
 variable "hosted_zone_id" {
   description = "Route 53 hosted zone ID"
   type        = string
+  default     = "Z0143137QHNQ1S0TYPKU"
 }
 
 variable "route53_role_arn" {
   description = "IAM role ARN for Route 53 access in management account"
   type        = string
+  default     = "arn:aws:iam::784074784474:role/Route53CrossAccountRole"
 }
 
 variable "recipient_email" {
@@ -75,4 +78,28 @@ variable "lambda_timeout" {
   description = "Lambda function timeout in seconds"
   type        = number
   default     = 30
+}
+
+variable "api_stage_name" {
+  description = "API Gateway stage name"
+  type        = string
+  default     = "prod"
+}
+
+variable "lambda_runtime" {
+  description = "Lambda runtime version"
+  type        = string
+  default     = "nodejs22.x"
+}
+
+variable "cloudfront_price_class" {
+  description = "CloudFront price class"
+  type        = string
+  default     = "PriceClass_All"
+}
+
+variable "cors_max_age" {
+  description = "CORS preflight cache duration in seconds"
+  type        = number
+  default     = 86400
 }
