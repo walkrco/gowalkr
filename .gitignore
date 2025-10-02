@@ -26,5 +26,7 @@ dist-ssr
 # Terraform
 terraform/.terraform/
 terraform/.terraform.lock.hcl
-terraform/lambda-deployment.zip
 terraform/terraform.tfstate*
+
+# Lambda deployment artifacts
+lambda-deployment.zip
